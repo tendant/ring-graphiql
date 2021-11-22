@@ -7,7 +7,10 @@
   (fn [request]
     (let [uri (:uri request)]
       (cond
-        (= "/graphiql" uri) (resp/resource-response "graphiql/graphiql.html")
-        (= "/graphiql.js" uri) (resp/resource-response "graphiql/graphiql.js")
-        (= "/graphiql.css" uri) (resp/resource-response "graphiql/graphiql.css")
+        (= "/graphiql" uri) (-> (resp/resource-response "graphiql/graphiql.html")
+                                (resp/content-type "text/html"))
+        (= "/graphiql.js" uri) (-> (resp/resource-response "graphiql/graphiql.js")
+                                   (resp/content-type "text/javascript"))
+        (= "/graphiql.css" uri) (-> (resp/resource-response "graphiql/graphiql.css")
+                                    (resp/content-type "text/css"))
         :default (handler request)))))
